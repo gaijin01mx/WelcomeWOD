@@ -4,9 +4,7 @@ from time import sleep
 import traceback
 import sys
 from html import escape
-
 import pickledb
-
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
@@ -377,7 +375,7 @@ def error(update, context, **kwargs):
     except:
         pass
 
-
+print('Corriendo el bot... ')
 def main():
     # Create the Updater and pass it your bot's token.
     updater = Updater(TOKEN, workers=10, use_context=True)
@@ -399,7 +397,7 @@ def main():
 
     dp.add_error_handler(error)
 
-    updater.start_polling(timeout=30, clean=True)
+    updater.start_polling()
     updater.idle()
 
 
