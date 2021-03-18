@@ -57,7 +57,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-@run_async
+run_async
 def send_async(context, *args, **kwargs):
     context.bot.send_message(*args, **kwargs)
 
