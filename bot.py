@@ -259,11 +259,27 @@ def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
 
+def get_url():
+    contents = requests.get('https://random.dog/woof.json').json()
+    url = contents['url']
+    return url
+def get_image_url():
+    allowed_extension = ['jpg','jpeg','png']
+    file_extension = ''
+    while file_extension not in allowed_extension:
+        url = get_url()
+        file_extension = re.search("([^.]*)$",url).group(1).lower()
+    print("got url %s"%url)
+    return url
 
 def xp(bot, update):
     context.bot.sendPhoto(chat_id=chat_id, photo='img/xp-1.png')
     #bot.sendPhoto(chat_id=update.message.chat_id, photo=open('img/xp-1.png', 'rb'))
 
+def bop(update, context):
+    print("reached bop")
+    url = get_image_url()
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = url)
 
 def armor(bot, update):
     bot.sendPhoto(chat_id=update.message.chat_id, photo=('img/Tabla-de-armadura.png', 'rb'))
@@ -629,8 +645,9 @@ def main():
     dp.add_handler(CommandHandler("armor", armor))
     dp.add_handler(CommandHandler("melee", melee))
     dp.add_handler(CommandHandler("weapons", weapons))
-
-    # log all errors
+    dp.add_handler(CommandHandler('bop',bop))
+    
+# log all errors
     dp.add_error_handler(error)
 
     roll_handler = CommandHandler(['roll', 'r'], process, pass_args=True)
