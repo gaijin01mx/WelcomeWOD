@@ -310,11 +310,11 @@ file_handler.setFormatter(formatter)
 logger = logging.basicConfig(handlers=[stream_handler, file_handler], level=logging.DEBUG)
 
 
-async def send_async(context, *args, **kwargs):
+def send_async(context, *args, **kwargs):
     context.bot.send_message(*args, **kwargs)
 
 
-async def check(update, context, override_lock=None):
+def check(update, context, override_lock=None):
     """
     Perform some checks on the update. If checks were successful, returns True,
     else sends an error message to the chat and returns False.
@@ -340,7 +340,7 @@ async def check(update, context, override_lock=None):
 
 
 # Welcome a user to the chat
-async def welcome(update, context, new_member):
+def welcome(update, context, new_member):
     """ Welcomes a user to the chat """
 
     message = update.message
@@ -396,7 +396,7 @@ def goodbye(update, context):
 
 
 # Introduce the bot to a chat its been added to
-async def introduce(update, context):
+def introduce(update, context):
     """
     Introduces the bot to a chat its been added to and saves the user id of the
     user who invited us.
@@ -421,7 +421,7 @@ async def introduce(update, context):
 
 
 # Print help text
-async def help(update, context):
+def help(update, context):
     """ Prints help text """
 
     chat_id = update.message.chat.id
@@ -440,7 +440,7 @@ async def help(update, context):
 
 
 # Set custom message
-async def set_welcome(update, context):
+def set_welcome(update, context):
     """ Sets custom welcome message """
 
     chat_id = update.message.chat.id
@@ -471,7 +471,7 @@ async def set_welcome(update, context):
 
 
 # Set custom message
-async def set_goodbye(update, context):
+def set_goodbye(update, context):
     """ Enables and sets custom goodbye message """
 
     chat_id = update.message.chat.id
@@ -500,7 +500,7 @@ async def set_goodbye(update, context):
     send_async(context, chat_id=chat_id, text="Entendido!")
 
 
-async def disable_goodbye(update, context):
+def disable_goodbye(update, context):
     """ Disables the goodbye message """
 
     chat_id = update.message.chat.id
@@ -515,7 +515,7 @@ async def disable_goodbye(update, context):
     send_async(context, chat_id=chat_id, text="Entendido!")
 
 
-async def lock(update, context):
+def lock(update, context):
     """ Locks the chat, so only the invitee can change settings """
 
     chat_id = update.message.chat.id
@@ -631,7 +631,7 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("bienvenido", help2))
+    dp.add_handler(CommandHandler("help2", help2))
     dp.add_handler(CommandHandler("help2", help2))
     dp.add_handler(CommandHandler("welcome", set_welcome))
     dp.add_handler(CommandHandler("goodbye", set_goodbye))
@@ -646,7 +646,7 @@ def main():
     dp.add_handler(CommandHandler("armor", armor))
     dp.add_handler(CommandHandler("melee", melee))
     dp.add_handler(CommandHandler("weapons", weapons))
-    dp.add_handler(CommandHandler('bop',bop))
+    dp.add_handler(CommandHandler("bop", bop))
     
 # log all errors
     dp.add_error_handler(error)
