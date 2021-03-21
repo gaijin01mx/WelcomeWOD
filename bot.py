@@ -259,10 +259,13 @@ def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
 
+
 def get_url():
     contents = requests.get('https://random.dog/woof.json').json()
     url = contents['url']
     return url
+
+
 def get_image_url():
     allowed_extension = ['jpg','jpeg','png']
     file_extension = ''
@@ -272,14 +275,17 @@ def get_image_url():
     print("got url %s"%url)
     return url
 
+
 def xp(bot, update):
     context.bot.sendPhoto(chat_id=chat_id, photo='img/xp-1.png')
     #bot.sendPhoto(chat_id=update.message.chat_id, photo=open('img/xp-1.png', 'rb'))
+
 
 def bop(update, context):
     print("reached bop")
     url = get_image_url()
     context.bot.send_photo(chat_id=update.effective_chat.id, photo = url)
+
 
 def armor(bot, update):
     bot.sendPhoto(chat_id=update.message.chat_id, photo=('img/Tabla-de-armadura.png', 'rb'))
@@ -304,12 +310,11 @@ file_handler.setFormatter(formatter)
 logger = logging.basicConfig(handlers=[stream_handler, file_handler], level=logging.DEBUG)
 
 
-@run_async
-def send_async(context, *args, **kwargs):
+async def send_async(context, *args, **kwargs):
     context.bot.send_message(*args, **kwargs)
 
 
-def check(update, context, override_lock=None):
+async def check(update, context, override_lock=None):
     """
     Perform some checks on the update. If checks were successful, returns True,
     else sends an error message to the chat and returns False.
@@ -439,7 +444,7 @@ def help(update, context):
 
 
 # Set custom message
-def set_welcome(update, context):
+async def set_welcome(update, context):
     """ Sets custom welcome message """
 
     chat_id = update.message.chat.id
@@ -470,7 +475,7 @@ def set_welcome(update, context):
 
 
 # Set custom message
-def set_goodbye(update, context):
+async def set_goodbye(update, context):
     """ Enables and sets custom goodbye message """
 
     chat_id = update.message.chat.id
@@ -499,7 +504,7 @@ def set_goodbye(update, context):
     send_async(context, chat_id=chat_id, text="Entendido!")
 
 
-def disable_goodbye(update, context):
+async def disable_goodbye(update, context):
     """ Disables the goodbye message """
 
     chat_id = update.message.chat.id
@@ -514,7 +519,7 @@ def disable_goodbye(update, context):
     send_async(context, chat_id=chat_id, text="Entendido!")
 
 
-def lock(update, context):
+async def lock(update, context):
     """ Locks the chat, so only the invitee can change settings """
 
     chat_id = update.message.chat.id
