@@ -240,12 +240,12 @@ def process(update: Update, context: CallbackContext):
 
     context.bot.send_message(chat_id=update.message.chat_id, text=response, parse_mode=ParseMode.HTML)
 
-def inicio(Update, context):
+def help2(Update, context):
     username = update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
     help_file = open('help.html', 'r')
     response = (help_file.read())
     help_file.close()
-    logging.info(f'@{username} | /help')
+    logging.info(f'@{username} | /help2')
     job = context.job
     context.bot.send_message(chat_id=update.message.chat_id, text=response, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
@@ -333,18 +333,14 @@ async def check(update, context, override_lock=None):
 
     if locked and db.get(chat_str + "_adm") != update.message.from_user.id:
         if not db.get(chat_str + "_quiet"):
-            send_async(
-                context,
-                chat_id=chat_id,
-                text="Lo siento, solo la persona que me invitó puede hacer eso.",
-            )
+            send_async(context, chat_id=chat_id, text="Lo siento, solo la persona que me invitó puede hacer eso.")
         return False
 
     return True
 
 
 # Welcome a user to the chat
-def welcome(update, context, new_member):
+async def welcome(update, context, new_member):
     """ Welcomes a user to the chat """
 
     message = update.message
@@ -400,7 +396,7 @@ def goodbye(update, context):
 
 
 # Introduce the bot to a chat its been added to
-def introduce(update, context):
+async def introduce(update, context):
     """
     Introduces the bot to a chat its been added to and saves the user id of the
     user who invited us.
@@ -425,7 +421,7 @@ def introduce(update, context):
 
 
 # Print help text
-def help(update, context):
+async def help(update, context):
     """ Prints help text """
 
     chat_id = update.message.chat.id
@@ -635,8 +631,8 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("bienvenido", inicio))
-    dp.add_handler(CommandHandler("inicio", inicio))
+    dp.add_handler(CommandHandler("bienvenido", help2))
+    dp.add_handler(CommandHandler("help2", help2))
     dp.add_handler(CommandHandler("welcome", set_welcome))
     dp.add_handler(CommandHandler("goodbye", set_goodbye))
     dp.add_handler(CommandHandler("disable_goodbye", disable_goodbye))
