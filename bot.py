@@ -277,7 +277,7 @@ def get_image_url():
 
 
 def xp(bot, update):
-    context.bot.sendPhoto(chat_id=chat_id, photo='img/xp-1.png')
+    context.bot.send_photo(chat_id=chat_id, photo='img/xp-1.png')
     #bot.sendPhoto(chat_id=update.message.chat_id, photo=open('img/xp-1.png', 'rb'))
 
 
